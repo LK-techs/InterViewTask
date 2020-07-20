@@ -34,7 +34,8 @@ class TableViewCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+
     func set(row:Rows){
         factsTitle.text        = row.title ?? "-"
         factsDescription.text  = row.description ?? "-"
