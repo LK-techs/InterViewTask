@@ -13,10 +13,15 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // setup initialviewcontrol programatically
+        window = UIWindow(frame: UIScreen.main.bounds)
+        let nav = UINavigationController()
+        let mainView = ViewController(nibName: nil, bundle: nil)
+        nav.viewControllers = [mainView]
+        window?.rootViewController = nav
+        window?.makeKeyAndVisible()
         return true
     }
 
@@ -46,6 +51,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data stack
 
+    func deleteAllData()  {
+        let fetchRequest: NSFetchRequest<Interview> = Interview.fetchRequest()
+
+               do {
+                let objects = try persistentContainer.viewContext.fetch(fetchRequest)
+                   for object in objects {
+                    persistentContainer.viewContext.delete(object)
+                   }
+                try persistentContainer.viewContext.save()
+               } catch _ {
+                   // error handling
+               }
+    }
+    
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
